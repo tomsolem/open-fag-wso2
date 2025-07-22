@@ -1,0 +1,35 @@
+# https://openfga.dev/docs/modeling/getting-started
+model
+  schema 1.1
+
+type user
+
+type document
+  relations
+    define parent: [folder]
+    define owner: [user, organization#member]
+    define editor: [user, organization#member]
+    define viewer: [user, organization#member]
+    define can_share: owner or editor or owner from parent
+    define can_view: viewer or editor or owner or viewer from parent or owner from parent
+    define can_write: editor or owner or owner from parent
+    define can_change_owner: owner
+
+type folder
+  relations
+    define parent: [folder, drive]
+    define owner: [user, organization#member]
+    define viewer: [user, organization#member]
+    define can_create_folder: owner or owner from parent
+    define can_create_document: owner or owner from parent
+    define can_view: viewer or owner or owner from parent
+
+type organization
+  relations
+    define member: [user, organization#member]
+    
+type drive
+  relations
+    define owner: [user, organization#member]
+    define can_create_document: owner 
+    define can_create_folder: owner

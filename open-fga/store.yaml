@@ -1,0 +1,64 @@
+name: Model Tests
+
+model_file: ./model.fga
+
+tuples:
+  - user: user:anne
+    relation: member
+    object: organization:contoso
+  - user: user:anne
+    relation: owner
+    object: document:1
+  - user: user:beth
+    relation: member
+    object: organization:fabrikam
+  - user: organization:fabrikam#member
+    relation: editor
+    object: document:1
+
+tests:
+  - name: Test Member of contoso
+    description: Test that a anna is a member of organization:contoso
+    check:
+      - user: user:anne
+        object: organization:contoso
+        assertions:
+          member: true
+      - user: user:beth
+        object: organization:contoso
+        assertions:
+          member: false
+      - user: user:beth
+        object: organization:fabrikam
+        assertions:
+          member: true
+  - name: Test Owner of Document
+    description: Test that a user is the owner of a document
+    check:
+      - user: user:anne
+        object: document:1
+        assertions:
+          owner: true
+      - user: user:anne
+        object: document:1
+        assertions:
+          can_share: true
+  - name: Test share Document with fabrikam
+    description: Test that a user can share a document with another organization
+    check:
+      - user: user:beth
+        object: document:1
+        assertions:
+          can_share: true
+      - user: user:beth
+        object: document:1
+        assertions:
+          can_view: true
+      - user: user:beth
+        object: document:1
+        assertions:
+          can_write: true
+      - user: user:beth
+        object: document:1
+        assertions:
+          can_change_owner: false

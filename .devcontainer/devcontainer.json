@@ -1,0 +1,52 @@
+{
+  "name": "open-fag-wso2-dev",
+  "dockerComposeFile": [
+    "../docker/docker-compose.yaml"
+  ],
+  "service": "dev-container",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [2222, 3000],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "zsh",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "pgsql.serverGroups": [
+        {
+            "name": "Servers",
+            "id": "D5A3D4C8-EC25-4F55-A841-69FD7EE5B84F",
+            "isDefault": true
+        }
+    ],
+    "pgsql.connections": [
+
+        {
+            "id": "B5C95F87-8B90-4863-B937-BEB2D9F11AF8",
+            "groupId": "D5A3D4C8-EC25-4F55-A841-69FD7EE5B84F",
+            "authenticationType": "SqlLogin",
+            "connectTimeout": 15,
+            "applicationName": "vscode-pgsql",
+            "clientEncoding": "utf8",
+            "sslmode": "disable",
+            "server": "postgres",
+            "user": "postgres",
+            "password": "",
+            "savePassword": true,
+            "database": "postgres",
+            "profileName": "openFGA-db",
+            "expiresOn": 0
+        }
+    ]
+      },
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "ms-vscode.cpptools",
+        "openfga.openfga-vscode",
+        "ms-ossdata.vscode-pgsql",
+        "golang.Go"
+      ]
+    }
+  },
+  "postCreateCommand": "./.devcontainer/setup.sh"
+}
